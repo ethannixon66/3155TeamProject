@@ -19,15 +19,15 @@ Feature: Edit Task
 
 Feature: View Task
   Scenario: User wants to view task details
-    Given: The user is on the board's Homepage.
+    Given the user is on the board's Homepage.
     When the user clicks on a task
     Then the user can see the task details
 
 Feature: Add Task
   Scenario: User wants to add a new task to the board.
-    Given: The User is on the boards Homepage.
-    When: The user clicks on the add task button
+    Given the User is on the boards Homepage.
+    When the user clicks on the add task button
     And user names the task
     And the task name is unique
     And user clicks the submit 
-    Then: A new task is added to the board.
+    Then a new task is added to the board.
