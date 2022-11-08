@@ -1,10 +1,20 @@
 <!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Task">
+    <title>Task</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
 <body>
     <nav>
-        <a href="{{url_for('index')}}">Home</a> ||
-        <a href="{{url_for('get_tasks')}}">My Tasks</a> || 
-        <a href="{{url_for('new_task')}}">New Task</a> 
+        <h1>Tasks</h1>
+        <a href="{{url_for('index')}}">Home</a> &#8226;
+        <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
+        <a href="{{url_for('new_task')}}">New Task</a>
     </nav>
+    <hr/>
     <table>
         <tr>
             <th>Title</th>
@@ -17,7 +27,7 @@
             <td><a href="{{ url_for('update_task', task_id=task.id) }}">Edit</a></td>
             <td>
                 <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
-                    <input type="submit" value="Delete">
+                    <button type="submit" value="Delete">Submit</button>
                 </form>
             </td>
         </tr>

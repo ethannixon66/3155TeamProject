@@ -53,3 +53,24 @@ a:hover {
 	text-decoration: none;
 	color: #ace0af;
 }
+
+button {
+    background-color: #282C34;
+    color: white;
+	padding: 6px 16px;
+	border: 2px solid #ace0af;
+	position: relative;
+	border-radius: 6px;
+}
+
+button:hover {
+    color: black;
+    background-color: #ace0af;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+nav
+{
+	text-align: center;
+}
