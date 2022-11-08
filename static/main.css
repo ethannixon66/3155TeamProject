@@ -1,0 +1,55 @@
+/* https://coolors.co/282c34-ace0af-48f3ae-a9c1c5-1c1f25 */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+body
+{
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #bfc9cb;
+    background: #282c34;
+	margin-left: 200px;
+	margin-right: 200px;
+    letter-spacing: 1px;
+}
+
+header, footer
+{
+    margin-top: 50px;
+	margin-bottom: 50px;
+    font-family: 'Ubuntu', sans-serif;
+	text-align: center;
+    color: #ace0af;
+    background:#282c34
+}
+
+h1
+{
+    font-family: 'Ubuntu', serif;
+    font-size: 32px;
+    color: #ace0af;
+    background:#282c34
+}
+
+h2
+{
+    font-family: 'Ubuntu', serif;
+    font-size: 24px;
+    color: #ace0af;
+    background:#282c34
+}
+
+h3
+{
+    font-family: 'Ubuntu', sans-serif;
+    color: #ace0af;
+    background:#282c34
+}
+
+a {
+	text-decoration: none;
+	color: #48f3ae;
+	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #ace0af;
+}
