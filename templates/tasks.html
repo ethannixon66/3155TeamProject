@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<body>
+    <nav>
+        <a href="{{url_for('index')}}">Home</a> ||
+        <a href="{{url_for('get_tasks')}}">My Tasks</a> || 
+        <a href="{{url_for('new_task')}}">New Task</a> 
+    </nav>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
+            <td>{{ task.date }}</td>
+            <td><a href="{{ url_for('update_task', task_id=task.id) }}">Edit</a></td>
+            <td>
+                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>

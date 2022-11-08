@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+
+
+</head>
+<body>
+    <nav>
+        <a href="{{url_for('index')}}">Home</a> ||
+        <a href="{{url_for('get_tasks')}}">My Tasks</a> || 
+        <a href="{{url_for('new_task')}}">New Task</a> 
+    </nav>
+    <form action="new" method="post">
+        <p><label>Title </label></p>
+        <p> <input type="text" name="title" value="{% if task %}{{task.title}} {% endif %}" /></p>
+        <p><label>Note </label></p>
+        <p>
+            <textarea name="taskText" rows="6" cols="0">
+                {% if task %}
+                    {{task.text}}
+                {% else %}
+                    Add your new note here ...
+                {% endif %}
+            </textarea>
+        </p>
+        <input type="submit" value="Add Note"/>
+    </form>
+</body>
