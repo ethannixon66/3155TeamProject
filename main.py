@@ -8,18 +8,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'This is a secret'
 db.init_app(app)
+
 with app.app_context():
     db.create_all()
 
 # runs if 404 error occurs (user typed a wrong url)
 @app.errorhandler(404)
 def page_not_found(e):
-    return 'Page does not exist'
+    return render_template('error.html', message="Page does not exist")
 
 # runs if NoResultFound exception is raised (the url contained an invalid task id)
 @app.errorhandler(NoResultFound)
 def task_not_found(e):
-    return "Whoops, looks like that task doesn't exist"
+    return render_template('error.html', message="Whoops, looks like that task does not exist")
 
 @app.route('/index/')
 @app.route('/')
@@ -31,8 +32,8 @@ def new_task():
     # If submit button was pressed
     if request.method == 'POST': 
         # set fields of task equal to values fetched from HTML form
-        title = request.form['title']
-        text = request.form['taskText']
+        title = request.form['title'].strip()
+        text = request.form['taskText'].strip()
 
         from datetime import date
         today = date.today().strftime('%m-%d-%Y')
@@ -66,14 +67,14 @@ def get_task(task_id):
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 def update_task(task_id):
     if request.method == 'POST':
-        title = request.form['title']
-        text = request.form['taskText']
+        title = request.form['title'].strip()
+        text = request.form['taskText'].strip()
         
         task = db.session.query(Task).filter_by(id=task_id).one()
         try:
             task.title = title
             task.text = text
-        except:
+        except ValueError as err:
             # flash will display an error on screen, err.args[0] is the text from the exception
             flash(f'Invalid input: {err.args[0]}')
             # refreshes page
@@ -82,7 +83,6 @@ def update_task(task_id):
         db.session.add(task)
         db.session.commit()
         return redirect(url_for('get_tasks'))
-
     else:
         my_task = db.session.query(Task).filter_by(id=task_id).one()
         return render_template('new.html', task=my_task)
