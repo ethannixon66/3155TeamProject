@@ -15,19 +15,26 @@
         <a href="{{url_for('new_task')}}">New Task</a>
     </nav>
     <hr/>
-    <form action="new" method="post">
+    {% if task %}
+        <form action="{{ url_for('update_task', task_id=task.id) }}" method="post">
+    {% else %}
+        <form action="new" method="post">
+    {% endif %}
         <p><label>Title </label></p>
         <p> <input type="text" name="title" value="{% if task %}{{task.title}} {% endif %}" /></p>
-        <p><label>Note </label></p>
+        <p><label>Task </label></p>
         <p>
-            <textarea name="taskText" rows="6" cols="0">
-                {% if task %}
-                    {{task.text}}
-                {% else %}
-                    Add your new note here ...
-                {% endif %}
-            </textarea>
+            <textarea name="taskText" rows="6" cols="0"> 
+                {%- if task -%} 
+                {{task.text}}
+                {%- else -%}
+                Add your new task here ...
+                {%- endif -%}</textarea>
         </p>
-        <input type="submit" value="Add Note"/>
+        {% if task %}
+            <input type="submit" value="Update Task">
+        {% else %}
+            <input type="submit" value="Add Task"/>
+        {% endif %}
     </form>
 </body>

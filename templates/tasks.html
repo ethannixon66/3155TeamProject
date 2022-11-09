@@ -24,10 +24,10 @@
         <tr>
             <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
             <td>{{ task.date }}</td>
-            <td><a href="{{ url_for('update_task', task_id=task.id) }}">Edit</a></td>
+            <td><a href="{{ url_for('update_task', task_id=task.id)}}">Edit {{task.id}}</a></td>
             <td>
                 <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
-                    <button type="submit" value="Delete">Submit</button>
+                    <button type="submit" value="Delete">Delete</button>
                 </form>
             </td>
         </tr>

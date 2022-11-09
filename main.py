@@ -46,7 +46,7 @@ def update_task(task_id):
     if request.method == 'POST':
         title = request.form['title']
         text = request.form['taskText']
-
+        
         task = db.session.query(Task).filter_by(id=task_id).one()
 
         task.title = title
@@ -54,17 +54,19 @@ def update_task(task_id):
 
         db.session.add(task)
         db.session.commit()
-
         return redirect(url_for('get_tasks'))
+
     else:
-
         my_task = db.session.query(Task).filter_by(id=task_id).one()
+        print(my_task.id)
+        return render_template('new.html', task=my_task)
 
-        return render_template('new.html', note=my_task)
-
-@app.route('/tasks/delete/<task_id>')
+@app.route('/tasks/delete/<task_id>', methods=['POST'])
 def delete_task(task_id):
-    return "hello"
+    my_task = db.session.query(Task).filter_by(id=task_id).one()
+    db.session.delete(my_task)
+    db.session.commit()
+    return redirect(url_for("get_tasks"))
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 
