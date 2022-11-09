@@ -1,12 +1,15 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="New Task">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
     <title>New Task</title>
     <!-- styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
+
 <body>
     <nav>
         <h1>Create New Task</h1>
@@ -20,21 +23,22 @@
     {% else %}
         <form action="new" method="post">
     {% endif %}
-        <p><label>Title </label></p>
-        <p> <input type="text" name="title" value="{% if task %}{{task.title}} {% endif %}" /></p>
-        <p><label>Task </label></p>
-        <p>
-            <textarea name="taskText" rows="6" cols="0"> 
-                {%- if task -%} 
-                {{task.text}}
-                {%- else -%}
-                Add your new task here ...
-                {%- endif -%}</textarea>
-        </p>
-        {% if task %}
-            <input type="submit" value="Update Task">
-        {% else %}
-            <input type="submit" value="Add Task"/>
-        {% endif %}
-    </form>
+            <p><label>Title </label></p>
+            <p> <input type="text" name="title" value="{% if task %}{{task.title}} {% endif %}" /></p>
+            <p><label>Task </label></p>
+            <p>
+                <textarea name="taskText" rows="6" cols="0">
+                    {%- if task -%} 
+                        {{task.text}}
+                    {%- else -%}
+                        Add your new task here ...
+                    {%- endif -%}
+                </textarea>
+            </p>
+            {% if task %}
+                <input type="submit" value="Update Task">
+            {% else %}
+                <input type="submit" value="Add Task" />
+            {% endif %}
+        </form>
 </body>
