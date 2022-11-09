@@ -111,3 +111,9 @@ table tr:nth-child(even) {
 {
     display:none;
 }
+.error 
+{
+    background-color: #CC0000;
+    color: #FFFFFF;
+    padding: 5px;
+}
