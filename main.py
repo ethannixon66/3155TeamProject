@@ -68,5 +68,6 @@ def delete_task(task_id):
     db.session.commit()
     return redirect(url_for("get_tasks"))
 
-app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
+if __name__ == '__main__':
+    app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 
