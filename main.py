@@ -30,19 +30,37 @@ def new_task():
         return redirect(url_for('get_tasks'))
     else:
         return render_template('new.html')
+
 @app.route('/tasks')
 def get_tasks():
-    # a_user = db.Query(User).filter_by(email='example@email.com').one()
     _tasks = db.session.query(Task).all()
     return render_template('tasks.html', tasks=_tasks)
+
 @app.route('/tasks/<task_id>')
 def get_task(task_id):
     a_task = db.session.query(Task).filter_by(id=task_id).one()
     return render_template('task.html', task=a_task)
 
-@app.route('/tasks/edit/<task_id>')
+@app.route('/tasks/edit/<task_id>', methods=['GET', 'POST'])
 def update_task(task_id):
-    return render_template('index.html')
+    if request.method == 'POST':
+        title = request.form['title']
+        text = request.form['taskText']
+
+        task = db.session.query(Task).filter_by(id=task_id).one()
+
+        task.title = title
+        task.text = text
+
+        db.session.add(task)
+        db.session.commit()
+
+        return redirect(url_for('get_tasks'))
+    else:
+
+        my_task = db.session.query(Task).filter_by(id=task_id).one()
+
+        return render_template('new.html', note=my_task)
 
 @app.route('/tasks/delete/<task_id>')
 def delete_task(task_id):
