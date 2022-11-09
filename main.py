@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from database import db
 from models import Task, User, user_tasks
 from sqlalchemy.exc import NoResultFound
+
 app = Flask(__name__)     
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -37,9 +38,10 @@ def new_task():
 
         from datetime import date
         today = date.today().strftime('%m-%d-%Y')
+        pinned = False
         # Task constructor raises exceptions if the fields are too long
         try:
-            new_task = Task(title, text, today)
+            new_task = Task(title, text, today, pinned)
         except ValueError as err:
             # flash will display an error on screen, err.args[0] is the text from the exception
             flash(f'Invalid input: {err.args[0]}')
@@ -54,10 +56,13 @@ def new_task():
     else:
         return render_template('new.html')
 
-@app.route('/tasks/')
+@app.route('/tasks/', methods=['GET', 'POST'])
 def get_tasks():
     _tasks = db.session.query(Task).all()
+    _tasks.sort(key=lambda task: not task.pinned)
     return render_template('tasks.html', tasks=_tasks)
+
+        
 
 @app.route('/tasks/<task_id>/')
 def get_task(task_id):
@@ -69,7 +74,6 @@ def update_task(task_id):
     if request.method == 'POST':
         title = request.form['title'].strip()
         text = request.form['taskText'].strip()
-        
         task = db.session.query(Task).filter_by(id=task_id).one()
         try:
             task.title = title
@@ -93,6 +97,14 @@ def delete_task(task_id):
     db.session.delete(my_task)
     db.session.commit()
     return redirect(url_for("get_tasks"))
+
+@app.route('/tasks/pin/<task_id>', methods=['POST'])
+def pin_task(task_id):
+    my_task = db.session.query(Task).filter_by(id=task_id).one()
+    my_task.pinned = not my_task.pinned
+    db.session.add(my_task)
+    db.session.commit()
+    return redirect(url_for('get_tasks'))
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
