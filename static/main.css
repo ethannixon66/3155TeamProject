@@ -50,6 +50,9 @@ a:hover, .icon:hover {
 	color: #ace0af;
 }
 
+.icon {
+    stroke:none;
+}
 button, input[type=submit] {
     cursor: pointer;
     background-color: #282C34;
@@ -116,4 +119,8 @@ table tr:nth-child(even) {
     background-color: #CC0000;
     color: #FFFFFF;
     padding: 5px;
+}
+label
+{
+    background-color:transparent;
 }
