@@ -89,3 +89,17 @@ label
     color: #ace0af;
     background:#282c34
 }
+
+table
+{
+    color: #ddd
+}
+th
+{
+    padding: 8px;
+}
+td
+{
+    padding: 4px;
+}
+
