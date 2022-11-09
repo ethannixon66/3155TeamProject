@@ -38,18 +38,20 @@ h3 {
     background:#282c34
 }
 
-a {
+a, .icon {
 	text-decoration: none;
 	color: #48f3ae;
 	font-weight: bold;
 }
 
-a:hover {
+a:hover, .icon:hover {
+    cursor: pointer;
 	text-decoration: none;
 	color: #ace0af;
 }
 
 button, input[type=submit] {
+    cursor: pointer;
     background-color: #282C34;
     color: white;
 	padding: 6px 16px;
@@ -104,4 +106,12 @@ td {
 table tr:nth-child(even) {
 	background-color: #384e45;
 	color: #fff;
+}
+.hide 
+{
+    display:none;
+}
+.hide 
+{
+    display:none;
 }
