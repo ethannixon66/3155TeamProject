@@ -1,43 +1,38 @@
 /* https://coolors.co/282c34-ace0af-48f3ae-a9c1c5-1c1f25 */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
-body
-{
+body {
     font-family: 'Trebuchet MS', sans-serif;
     color: #bfc9cb;
     background: #282c34;
-	margin-left: 200px;
-	margin-right: 200px;
+	margin-left: 15%;
+	margin-right: 15%;
     letter-spacing: 1px;
 }
 
-header, footer
-{
-    margin-top: 50px;
-	margin-bottom: 50px;
+header, footer {
+    margin-top: 10%;
+	margin-bottom: 10%;
     font-family: 'Ubuntu', sans-serif;
 	text-align: center;
     color: #ace0af;
     background:#282c34
 }
 
-h1
-{
+h1 {
     font-family: 'Ubuntu', serif;
     font-size: 32px;
     color: #ace0af;
     background:#282c34
 }
 
-h2
-{
+h2 {
     font-family: 'Ubuntu', serif;
     font-size: 24px;
     color: #ace0af;
     background:#282c34
 }
 
-h3
-{
+h3 {
     font-family: 'Ubuntu', sans-serif;
     color: #ace0af;
     background:#282c34
@@ -70,36 +65,46 @@ button:hover, input[type=submit]:hover {
     transition-duration: 0.1s;
 }
 
-nav
-{
+nav {
 	text-align: center;
 }
 
-textarea
-{
+textarea {
     resize: none;
     width: 100%;
     border: 2px solid #48f3ae;
 }
 
-label
-{
+label {
     font-family: 'Ubuntu', serif;
     font-size: 24px;
     color: #ace0af;
     background:#282c34
 }
 
-table
-{
+table {
     color: #ddd
+    text-align: start;
+    border-spacing: 0px!important;
+
 }
-th
-{
-    padding: 8px;
+th {
+    padding: 10px 12px;
+    text-align: left;
+    background-color: #1C1F25;
+	color: #d7f1e5;
+
 }
-td
-{
-    padding: 4px;
+
+td {
+    padding: 4px 12px
+
 }
+
+table tr:nth-child(even) {
+	background-color: #384e45;
+	color: #fff;
+}
+
+
 
