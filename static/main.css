@@ -50,9 +50,6 @@ a:hover, .icon:hover {
 	color: #ace0af;
 }
 
-.icon {
-    stroke:none;
-}
 button, input[type=submit] {
     cursor: pointer;
     background-color: #282C34;
@@ -91,8 +88,8 @@ table {
     color: #ddd;
     text-align: start;
     border-spacing: 0px!important;
-
 }
+
 th {
     padding: 10px 12px;
     text-align: left;
@@ -110,17 +107,17 @@ table tr:nth-child(even) {
 	background-color: #384e45;
 	color: #fff;
 }
-.hide 
-{
+
+.hide {
     display:none;
 }
-.error 
-{
+
+.error {
     background-color: #CC0000;
     color: #FFFFFF;
     padding: 5px;
 }
-label
-{
+
+label {
     background-color:transparent;
 }
