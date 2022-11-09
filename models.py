@@ -6,11 +6,16 @@ class Task(db.Model):
     title = db.Column("title", db.String(200))
     text = db.Column("text", db.String(100))
     date = db.Column("date", db.String(50))
+    pinned = db.Column("pinned", db.Boolean())
 
-    def __init__(self, title, text, date):
+    def __init__(self, title, text, date, pinned):
         self.title = title
         self.text = text
         self.date = date
+        if title == "pinned":
+            self.pinned = True
+        else:
+            self.pinned = pinned
 
     @validates('title')
     def validate_title(self, key, value):
