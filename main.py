@@ -2,7 +2,7 @@ import os                 # os is used to get environment variables IP & PORT
 from flask import Flask, render_template, request, redirect, url_for, flash
 from database import db
 from models import Task, User, user_tasks
-
+from sqlalchemy.exc import NoResultFound
 app = Flask(__name__)     
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -10,6 +10,16 @@ app.secret_key = 'This is a secret'
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
+# runs if 404 error occurs (user typed a wrong url)
+@app.errorhandler(404)
+def page_not_found(e):
+    return 'Page does not exist'
+
+# runs if NoResultFound exception is raised (the url contained an invalid task id)
+@app.errorhandler(NoResultFound)
+def task_not_found(e):
+    return "Whoops, looks like that task doesn't exist"
 
 @app.route('/index/')
 @app.route('/')
@@ -60,9 +70,14 @@ def update_task(task_id):
         text = request.form['taskText']
         
         task = db.session.query(Task).filter_by(id=task_id).one()
-
-        task.title = title
-        task.text = text
+        try:
+            task.title = title
+            task.text = text
+        except:
+            # flash will display an error on screen, err.args[0] is the text from the exception
+            flash(f'Invalid input: {err.args[0]}')
+            # refreshes page
+            return redirect(url_for('new_task'))
 
         db.session.add(task)
         db.session.commit()
