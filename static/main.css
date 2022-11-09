@@ -54,7 +54,7 @@ a:hover {
 	color: #ace0af;
 }
 
-button {
+button, input[type=submit] {
     background-color: #282C34;
     color: white;
 	padding: 6px 16px;
@@ -63,7 +63,7 @@ button {
 	border-radius: 6px;
 }
 
-button:hover {
+button:hover, input[type=submit]:hover {
     color: black;
     background-color: #ace0af;
     text-decoration: none;
@@ -73,4 +73,19 @@ button:hover {
 nav
 {
 	text-align: center;
+}
+
+textarea
+{
+    resize: none;
+    width: 100%;
+    border: 2px solid #48f3ae;
+}
+
+label
+{
+    font-family: 'Ubuntu', serif;
+    font-size: 24px;
+    color: #ace0af;
+    background:#282c34
 }

@@ -21,7 +21,7 @@
     {% if task %}
         <form action="{{ url_for('update_task', task_id=task.id) }}" method="post">
     {% else %}
-        <form action="new" method="post">
+        <form method="post">
     {% endif %}
             <p><label>Title </label></p>
             <p> <input type="text" name="title" value="{% if task %}{{task.title}} {% endif %}" /></p>

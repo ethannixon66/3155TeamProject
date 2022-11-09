@@ -17,6 +17,7 @@ def index():
 
 @app.route('/tasks/new/', methods=['GET', 'POST'])
 def new_task():
+    print(request.method)
     if request.method == 'POST':
         title = request.form['title']
         text = request.form['taskText']
@@ -27,6 +28,7 @@ def new_task():
         new_task = Task(title, text, today)
         db.session.add(new_task)
         db.session.commit()
+    
         return redirect(url_for('get_tasks'))
     else:
         return render_template('new.html')
