@@ -1,7 +1,7 @@
 from database import db
-
+from sqlalchemy.orm import validates
 class Task(db.Model):
-    
+
     id = db.Column("id", db.Integer, primary_key=True)
     title = db.Column("title", db.String(200))
     text = db.Column("text", db.String(100))
@@ -11,6 +11,23 @@ class Task(db.Model):
         self.title = title
         self.text = text
         self.date = date
+
+    @validates('title')
+    def validate_title(self, key, value):
+        if len(value) > Task.title.type.length:
+            raise ValueError(f"Title cannot be longer than {Task.title.type.length} characters")
+        elif len(value) < 1:
+            raise ValueError(f"Title cannot be empty")
+        elif db.session.query(Task).filter_by(title=value).first() is not None:
+            raise ValueError(f"Task with that title already exists")
+        return value
+
+    @validates('text')
+    def validate_text(self, key, value):
+        if len(value) > Task.text.type.length:
+            raise ValueError(f"Description cannot be longer than {Task.text.type.length} characters")
+        return value
+
 
 class User(db.Model):
     id = db.Column("id", db.Integer, primary_key=True)
