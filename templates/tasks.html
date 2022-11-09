@@ -16,22 +16,27 @@
         <a href="{{url_for('new_task')}}">New Task</a>
     </nav>
     <hr/>
+{% if tasks %}
     <table>
         <tr>
             <th>Title</th>
             <th>Date</th>
         </tr>
-        {% for task in tasks %}
-        <tr>
-            <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
-            <td>{{ task.date }}</td>
-            <td><a href="{{ url_for('update_task', task_id=task.id)}}">Edit</a></td>
-            <td>
-                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
-                    <button type="submit" value="Delete">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
+        
+            {% for task in tasks %}
+            <tr>
+                <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
+                <td>{{ task.date }}</td>
+                <td><a href="{{ url_for('update_task', task_id=task.id)}}">Edit</a></td>
+                <td>
+                    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
+                        <button type="submit" value="Delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
     </table>
+{% else %}
+    <h2>Try creating a new task!</h2>
+{% endif %}
 </body>

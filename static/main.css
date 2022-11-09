@@ -103,3 +103,9 @@ td
     padding: 4px;
 }
 
+.error 
+{
+    background-color: #CC0000;
+    color: #FFFFFF;
+    padding: 5px;
+}
