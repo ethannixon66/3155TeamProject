@@ -1,5 +1,6 @@
 /* https://coolors.co/282c34-ace0af-48f3ae-a9c1c5-1c1f25 */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
 body {
     font-family: 'Trebuchet MS', sans-serif;
     color: #bfc9cb;
@@ -39,7 +40,7 @@ h3 {
 }
 
 a, .icon {
-	text-decoration: none;
+	text-decoration: none; 
 	color: #48f3ae;
 	font-weight: bold;
 }
@@ -48,6 +49,7 @@ a:hover, .icon:hover {
     cursor: pointer;
 	text-decoration: none;
 	color: #ace0af;
+    transition:.15s;
 }
 
 button, input[type=submit] {
@@ -140,13 +142,14 @@ table tr:nth-child(even) {
 @keyframes fadeIn {
    100% {text-shadow: 0px 0px 10px #00df86,  0px 0px 10px #00df86;}
 }
-@keyframes fadeOut {
-    100% {text-shadow: 0px 0px 10px #00df86,  0px 0px 10px #00df86;}   
-}
-
+ 
 .inactive_sort {
     color: inherit;
 }
 .inactive_sort:hover {
     color:#fff
+}
+
+::selection {
+    background: #6cb19b;
 }
