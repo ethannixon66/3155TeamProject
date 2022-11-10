@@ -48,7 +48,7 @@ class User(db.Model):
     email = db.Column("email", db.String(100))
     password = db.Column("password", db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    tasks = db.relationship("Task", backref="user", lazy=True)
+    # tasks = db.relationship("Task", backref="user", lazy=True)
 
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name
