@@ -31,7 +31,7 @@ def index():
     if session.get('user') is None:
         flash('Please login first')
         return redirect(url_for('login'))
-    return render_template('index.html')
+    return redirect(url_for('get_tasks'))
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -113,7 +113,7 @@ def new_task():
         return redirect(url_for('get_tasks'))
     # if page was loaded normally via GET 
     else:
-        return render_template('new.html')
+        return render_template('new.html', user=session['user'])
 
 @app.route('/tasks/', methods=['GET', 'POST'])
 def get_tasks():
@@ -122,7 +122,7 @@ def get_tasks():
         return redirect(url_for('login'))
     _tasks = db.session.query(Task).all()
     _tasks.sort(key=lambda task: not task.pinned)
-    return render_template('tasks.html', tasks=_tasks)
+    return render_template('tasks.html', tasks=_tasks, user=session['user'])
 
         
 
@@ -132,7 +132,7 @@ def get_task(task_id):
         flash('Please login first')
         return redirect(url_for('login'))
     a_task = db.session.query(Task).filter_by(id=task_id).one()
-    return render_template('task.html', task=a_task)
+    return render_template('task.html', task=a_task, user=session['user'])
 
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 def update_task(task_id):
@@ -157,7 +157,7 @@ def update_task(task_id):
         return redirect(url_for('get_tasks'))
     else:
         my_task = db.session.query(Task).filter_by(id=task_id).one()
-        return render_template('new.html', task=my_task)
+        return render_template('new.html', task=my_task, user=session['user'])
 
 @app.route('/tasks/delete/<task_id>/', methods=['POST'])
 def delete_task(task_id):

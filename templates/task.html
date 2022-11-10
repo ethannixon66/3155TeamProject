@@ -11,11 +11,16 @@
 </head>
     <body>
         <nav>
-        <h1>Task Details</h1>
-        <a href="{{url_for('index')}}">Home</a> &#8226;
-        <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
-        <a href="{{url_for('new_task')}}">New Task</a>
-    </nav>
+            <h1>Task Details</h1>
+            <a href="{{url_for('index')}}">Home</a> &#8226;
+            <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
+            <a href="{{url_for('new_task')}}">New Task</a>
+        </nav>
+        {% if user %}
+        <nav>
+            <a href="{{url_for('logout')}}">Logout</a>
+        </nav> 
+        {% endif %}
     <hr/>
         <table>
             <tr>

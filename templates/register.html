@@ -2,28 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 </head>
     <body>
         <div class="navdiv">
 
-            <nav>
-                <a href="{{ url_for('index') }}"> Home</a> ||
-                <a href="{{ url_for('get_tasks') }}"> My tasks</a> ||
-                <a href="{{ url_for('new_task') }}">Add task</a>
-            </nav>
-        {% if user %}
-            <nav>
-                <a href="{{url_for('logout')}}">Logout</a>
-            </nav> 
-        {% else %} 
-            <nav>
-                <a href="{{url_for('login')}}">Sign In</a> || 
-                <a href="{{url_for('register')}}">Register</a>
-            </nav>
-        {% endif %}
+            <div class="navdiv">
+                <nav>
+                    <h1>Tasks</h1>
+                    <a href="{{url_for('index')}}">Home</a> &#8226;
+                    <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
+                    <a href="{{url_for('new_task')}}">New Task</a>
+                </nav>
+            {% if user %}
+                <nav>
+                    <a href="{{url_for('logout')}}">Logout</a>
+                </nav> 
+            {% else %} 
+                <nav>
+                    <a href="{{url_for('login')}}">Sign In</a> &#8226; 
+                    <a href="{{url_for('register')}}">Register</a>
+                </nav>
+            {% endif %}
         </div>
         <h1>Welcome {% if user %}{{user}}{% endif %}to the 49er tasks App!</h1>
 
