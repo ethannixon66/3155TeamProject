@@ -1,8 +1,10 @@
 import os                 # os is used to get environment variables IP & PORT
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import db
 from models import Task, User, user_tasks
 from sqlalchemy.exc import NoResultFound
+from forms import RegisterForm
+import bcrypt
 
 app = Flask(__name__)     
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_app.db'
@@ -27,6 +29,32 @@ def task_not_found(e):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    
+    if request.method == 'POST' and form.validate_on_submit():
+        h_password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+        # get entered user data
+        first_name = request.form['firstname']
+        last_name = request.form['lastname']
+        # create user model
+        new_user = User(first_name, last_name, request.form['email'], h_password)
+        # add user to database and commit
+        db.session.add(new_user)
+        db.session.commit()
+        # save the user's name to the session
+        session['user'] = first_name
+        session['user_id'] = new_user.id  # access id value from user model of this newly added user
+        # show user dashboard view
+        return redirect(url_for('get_tasks'))
+    else:
+        return render_template('register.html', form=form)
+
+@app.route('/login/')
+def login():
+    return redirect(url_for('index'))
 
 @app.route('/tasks/new/', methods=['GET', 'POST'])
 def new_task():
