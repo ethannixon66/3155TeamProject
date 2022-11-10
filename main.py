@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from database import db
 from models import Task, User, user_tasks
 from sqlalchemy.exc import NoResultFound
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm, CommentForm
 import bcrypt
 
 app = Flask(__name__)     
@@ -52,9 +52,28 @@ def register():
     else:
         return render_template('register.html', form=form)
 
-@app.route('/login/')
+@app.route('/login/', methods=['POST', 'GET'])
 def login():
-    return redirect(url_for('index'))
+    login_form = LoginForm()
+    # validate_on_submit only validates using POST
+    if login_form.validate_on_submit():
+        # we know user exists. We can use one()
+        the_user = db.session.query(User).filter_by(email=request.form['email']).one()
+        # user exists check password entered matches stored password
+        if bcrypt.checkpw(request.form['password'].encode('utf-8'), the_user.password):
+            # password match add user info to session
+            session['user'] = the_user.first_name
+            session['user_id'] = the_user.id
+            # render view
+            return redirect(url_for('get_tasks'))
+
+        # password check failed
+        # set error message to alert user
+        login_form.password.errors = ["Incorrect username or password."]
+        return render_template("login.html", form=login_form)
+    else:
+        # form did not validate or GET request
+        return render_template("login.html", form=login_form)
 
 @app.route('/tasks/new/', methods=['GET', 'POST'])
 def new_task():
