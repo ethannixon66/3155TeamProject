@@ -144,8 +144,6 @@ def get_tasks():
 def set_task_order(order):
     session['sort_order'] = order
     return redirect(url_for('get_tasks'))
-    
-
         
 
 @app.route('/tasks/<task_id>/')

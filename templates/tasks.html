@@ -24,8 +24,16 @@
 {% if tasks %}
     <table>
         <tr>
-            <th>Title</th>
-            <th>Date</th>
+        {% if session.get('sort_order') == 'title' %}
+            <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' if session.get('sort_order') != 'title' else 'default')}}">Title</a></th>
+        {% else %}
+            <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='title' if session.get('sort_order') != 'title' else 'default')}}">Title</a></th>
+        {% endif %}
+        {% if session.get('sort_order') == 'date' %}
+            <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' if session.get('sort_order') != 'date' else 'default')}}">Date</a></th>
+        {% else %}
+            <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='date' if session.get('sort_order') != 'date' else 'default')}}">Date</a></th>
+        {% endif %}
             <th></th>
             <th></th>
             <th></th>
