@@ -1,5 +1,3 @@
-# TODO fix edit not letting you keep title the same
-
 import os                 # os is used to get environment variables IP & PORT
 from flask import Flask, render_template, request, redirect, url_for, flash
 from database import db
