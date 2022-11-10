@@ -6,4 +6,4 @@ venv/
 
 __pycache__
 
-task_app.db
+instance/task_app.db

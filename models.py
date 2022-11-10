@@ -12,19 +12,17 @@ class Task(db.Model):
         self.title = title
         self.text = text
         self.date = date
-        if title == "pinned":
-            self.pinned = True
-        else:
-            self.pinned = pinned
+        self.pinned = pinned
 
     @validates('title')
     def validate_title(self, key, value):
-        if len(value) > Task.title.type.length:
+        existing_entry = db.session.query(Task).filter_by(title=value).first()
+        if existing_entry is not None and existing_entry.id != self.id:
+            raise ValueError(f"Task with that title already exists")
+        elif len(value) > Task.title.type.length:
             raise ValueError(f"Title cannot be longer than {Task.title.type.length} characters")
         elif len(value) < 1:
             raise ValueError(f"Title cannot be empty")
-        elif db.session.query(Task).filter_by(title=value).first() is not None:
-            raise ValueError(f"Task with that title already exists")
         return value
 
     @validates('text')
