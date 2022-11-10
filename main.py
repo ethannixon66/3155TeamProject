@@ -4,6 +4,7 @@ from database import db
 from models import Task, User, user_tasks
 from sqlalchemy.exc import NoResultFound
 from forms import RegisterForm, LoginForm, CommentForm
+from functools import wraps
 import bcrypt
 
 app = Flask(__name__)     
@@ -14,7 +15,17 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-
+# decorator that will automatically check for user login status before
+# executing any route it's placed before
+def requires_user_login(route_func):
+    @wraps(route_func)
+    def wrapper(*args, **kwargs):
+        if session.get('user') is None:
+            flash('Please login first')
+            return redirect(url_for('login'))
+        return route_func(*args, **kwargs)
+    return wrapper
+    
 # runs if 404 error occurs (user typed a wrong url)
 @app.errorhandler(404)
 def page_not_found(e):
@@ -27,10 +38,8 @@ def task_not_found(e):
 
 @app.route('/index/')
 @app.route('/')
+@requires_user_login
 def index():
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
     return redirect(url_for('get_tasks'))
 
 @app.route('/register/', methods=['GET', 'POST'])
@@ -85,10 +94,8 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/tasks/new/', methods=['GET', 'POST'])
+@requires_user_login
 def new_task():
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
     # If submit button was pressed
     if request.method == 'POST': 
         # set fields of task equal to values fetched from HTML form
@@ -115,30 +122,41 @@ def new_task():
     else:
         return render_template('new.html', user=session['user'])
 
+
 @app.route('/tasks/', methods=['GET', 'POST'])
+@requires_user_login
 def get_tasks():
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
-    _tasks = db.session.query(Task).all()
-    _tasks.sort(key=lambda task: not task.pinned)
-    return render_template('tasks.html', tasks=_tasks, user=session['user'])
+    tasks = db.session.query(Task).all()
+    sort_func = lambda task: task.id
+    if session.get('sort_order') is None:
+        session['sort_order'] = 'default'
+    elif session['sort_order'] == 'title':
+        sort_func = lambda task: task.title
+    elif session['sort_order'] == 'date':
+        sort_func = lambda task: task.date
+    
+    tasks.sort(key=sort_func)
+    tasks.sort(key=lambda task: not task.pinned)
+    return render_template('tasks.html', tasks=tasks, user=session['user'])
+
+@app.route('/tasks/order_by_<order>')
+@requires_user_login
+def set_task_order(order):
+    session['sort_order'] = order
+    return redirect(url_for('get_tasks'))
+    
 
         
 
 @app.route('/tasks/<task_id>/')
+@requires_user_login
 def get_task(task_id):
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
     a_task = db.session.query(Task).filter_by(id=task_id).one()
     return render_template('task.html', task=a_task, user=session['user'])
 
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
+@requires_user_login
 def update_task(task_id):
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
     if request.method == 'POST':
         title = request.form['title'].strip()
         text = request.form['taskText'].strip()
@@ -160,21 +178,16 @@ def update_task(task_id):
         return render_template('new.html', task=my_task, user=session['user'])
 
 @app.route('/tasks/delete/<task_id>/', methods=['POST'])
+@requires_user_login
 def delete_task(task_id):
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
     my_task = db.session.query(Task).filter_by(id=task_id).one()
     db.session.delete(my_task)
     db.session.commit()
     return redirect(url_for("get_tasks"))
 
 @app.route('/tasks/pin/<task_id>', methods=['POST'])
+@requires_user_login
 def pin_task(task_id):
-    print(session.get('user'))
-    if session.get('user') is None:
-        flash('Please login first')
-        return redirect(url_for('login'))
     my_task = db.session.query(Task).filter_by(id=task_id).one()
     my_task.pinned = not my_task.pinned
     db.session.add(my_task)
