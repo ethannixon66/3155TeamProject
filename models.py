@@ -1,6 +1,12 @@
 from database import db
 from sqlalchemy.orm import validates
 from datetime import date
+
+user_tasks = db.Table('UserTasks',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('task_id', db.Integer, db.ForeignKey('task.id'), primary_key=True)
+)
+
 class Task(db.Model):
 
     id = db.Column("id", db.Integer, primary_key=True)
@@ -8,6 +14,8 @@ class Task(db.Model):
     text = db.Column("text", db.String(100))
     date = db.Column("date", db.String(50))
     pinned = db.Column("pinned", db.Boolean())
+
+    users = db.relationship('User', secondary=user_tasks, lazy='subquery', backref=db.backref('tasks', lazy=True))
 
     def __init__(self, title, text, date, pinned):
         self.title = title
@@ -49,10 +57,7 @@ class User(db.Model):
         self.password = password
         self.registered_on = date.today()
 
-user_tasks = db.Table('UserTasks',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('task_id', db.Integer, db.ForeignKey('task.id'), primary_key=True)
-)
+
 
 
     
