@@ -74,7 +74,7 @@ def login():
         # user exists check password entered matches stored password
         if bcrypt.checkpw(request.form['password'].encode('utf-8'), the_user.password):
             # password match add user info to session
-            session['user'] = the_user.first_name
+            session['user'] = {'first_name': the_user.first_name, 'last_name': the_user.last_name}
             session['user_id'] = the_user.id
             # render view
             return redirect(url_for('get_tasks'))

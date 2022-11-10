@@ -149,7 +149,16 @@ table tr:nth-child(even) {
 .inactive_sort:hover {
     color:#fff
 }
-
+/* .login_info {
+    float:right;
+    top:0px;
+}
+.help {
+    display:flex;
+    align-items:center;
+    top:0px;
+    
+} */
 ::selection {
     background: #6cb19b;
 }
