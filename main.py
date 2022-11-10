@@ -57,7 +57,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         # save the user's name to the session
-        session['user'] = first_name
+        session['user'] = {'first_name': new_user.first_name, 'last_name': new_user.last_name}
         session['user_id'] = new_user.id  # access id value from user model of this newly added user
         # show user dashboard view
         return redirect(url_for('get_tasks'))

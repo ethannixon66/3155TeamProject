@@ -149,7 +149,8 @@ table tr:nth-child(even) {
 .inactive_sort:hover {
     color:#fff
 }
-/* .login_info {
+.login_info {
+    text-align:right;
     float:right;
     top:0px;
 }
@@ -157,8 +158,13 @@ table tr:nth-child(even) {
     display:flex;
     align-items:center;
     top:0px;
+    text-align: right;
+    margin-right: 0;
+    margin-left: auto;
     
-} */
+
+    
+}
 ::selection {
     background: #6cb19b;
 }
