@@ -166,7 +166,7 @@ def update_task(task_id):
             # flash will display an error on screen, err.args[0] is the text from the exception
             flash(f'Invalid input: {err.args[0]}')
             # refreshes page
-            return redirect(url_for('new_task'))
+            return redirect(url_for('update_task', task_id=task_id))
 
         db.session.add(task)
         db.session.commit()
