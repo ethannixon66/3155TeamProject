@@ -149,8 +149,8 @@ def set_task_order(order):
 @app.route('/tasks/<task_id>/')
 @requires_user_login
 def get_task(task_id):
-    a_task = db.session.query(Task).filter_by(id=task_id).one()
-    return render_template('task.html', task=a_task, user=session['user'])
+    task = db.session.query(Task).filter_by(id=task_id).one()
+    return render_template('task.html', task=task, user=session['user'])
 
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 @requires_user_login
@@ -172,8 +172,8 @@ def update_task(task_id):
         db.session.commit()
         return redirect(url_for('get_tasks'))
     else:
-        my_task = db.session.query(Task).filter_by(id=task_id).one()
-        return render_template('new.html', task=my_task, user=session['user'])
+        task = db.session.query(Task).filter_by(id=task_id).one()
+        return render_template('new.html', task=task, user=session['user'])
 
 @app.route('/tasks/delete/<task_id>/', methods=['POST'])
 @requires_user_login
