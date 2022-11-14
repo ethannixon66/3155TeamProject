@@ -15,9 +15,9 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-# decorator that will automatically check for user login status before
-# executing any route it's placed before
+
 def requires_user_login(route_func):
+    """Redirects to login page if not logged in"""
     @wraps(route_func)
     def wrapper(*args, **kwargs):
         if session.get('user') is None:
@@ -105,7 +105,7 @@ def new_task():
         from datetime import date
         today = date.today().strftime('%m-%d-%Y')
         pinned = False
-        # Task constructor raises exceptions if the fields are too long
+        # Task constructor raises exceptions if the fields aren't valid
         try:
             new_task = Task(title, text, today, pinned)
         except ValueError as err:
