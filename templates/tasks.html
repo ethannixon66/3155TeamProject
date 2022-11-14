@@ -31,15 +31,23 @@
 {% if tasks %}
     <table>
         <tr>
-        {% if session.get('sort_order') == 'title' %}
-            <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' if session.get('sort_order') != 'title' else 'default')}}">Title</a></th>
+        {% if session.get('order_by') == 'title' %}
+            {% if session.get('sort_ascending') %}
+                <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' )}}">Title &#8593;</a></th>
+            {% else %}
+                <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' )}}">Title &#8595;</a></th>
+            {% endif %}
         {% else %}
-            <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='title' if session.get('sort_order') != 'title' else 'default')}}">Title</a></th>
+            <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='title')}}">Title</a></th>
         {% endif %}
-        {% if session.get('sort_order') == 'date' %}
-            <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' if session.get('sort_order') != 'date' else 'default')}}">Date</a></th>
+        {% if session.get('order_by') == 'date' %}
+            {% if session.get('sort_ascending') %}
+                <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' )}}">Date &#8593;</a></th>
+            {% else %}
+                <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' )}}">Date &#8595;</a></th>
+            {% endif %}
         {% else %}
-            <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='date' if session.get('sort_order') != 'date' else 'default')}}">Date</a></th>
+            <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='date')}}">Date</a></th>
         {% endif %}
             <th></th>
             <th></th>

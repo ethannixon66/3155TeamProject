@@ -128,21 +128,34 @@ def new_task():
 def get_tasks():
     tasks = db.session.query(Task).all()
     sort_func = lambda task: task.id
-    if session.get('sort_order') is None:
-        session['sort_order'] = 'default'
-    elif session['sort_order'] == 'title':
+    if session.get('order_by') is None or session.get('sort_ascending') is None:
+        session['order_by'] = 'default'
+        session['sort_ascending'] = True
+    elif session['order_by'] == 'title':
         sort_func = lambda task: task.title
-    elif session['sort_order'] == 'date':
+    elif session['order_by'] == 'date':
         sort_func = lambda task: task.date
-    
-    tasks.sort(key=sort_func)
+
+    tasks.sort(key=sort_func, reverse=not session['sort_ascending'])
     tasks.sort(key=lambda task: not task.pinned)
     return render_template('tasks.html', tasks=tasks, user=session['user'])
 
 @app.route('/tasks/order_by_<order>')
 @requires_user_login
 def set_task_order(order):
-    session['sort_order'] = order
+    # if the new sorting key is the same as the old one
+    if session['order_by'] == order:
+        # if sorting is descending and user hits button it should 
+        # switch back to default sorting order
+        if not session['sort_ascending']:
+            session['order_by'] = 'default'
+        # the direction of sorting should always toggle
+        session['sort_ascending'] = not session['sort_ascending']
+    # if the new sorting order is different from the old one
+    else:
+        session['sort_ascending'] = True
+        session['order_by'] = order
+    
     return redirect(url_for('get_tasks'))
         
 
