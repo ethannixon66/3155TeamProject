@@ -66,6 +66,9 @@ def register():
 
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
+    if session.get('user'):
+        return redirect(url_for('get_tasks'))
+        
     login_form = LoginForm()
     # validate_on_submit only validates using POST
     if login_form.validate_on_submit():
