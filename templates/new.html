@@ -11,17 +11,16 @@
 </head>
 
 <body>
+    {% if user %}
+    <div class="login_info"><h4>Logged in as:  {{user.first_name}} {{user.last_name}}</h4>  |  
+    <a href="{{url_for('logout')}}"> Logout</a></div>
+    {% endif %}
     <nav>
         <h1>Create New Task</h1>
         <a href="{{url_for('index')}}">Home</a> &#8226;
         <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
         <a href="{{url_for('new_task')}}">New Task</a>
     </nav>
-    {% if user %}
-    <nav>
-        <a href="{{url_for('logout')}}">Logout</a>
-    </nav> 
-    {% endif %}
     <hr/>
     {% with messages = get_flashed_messages() %}  
          {% if messages %}  

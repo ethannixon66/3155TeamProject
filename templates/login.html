@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 </head>
     <body>
+        {% if user %}
+        <div class="login_info"><h4>Logged in as:  {{user.first_name}} {{user.last_name}}</h4>  |  
+        <a href="{{url_for('logout')}}"> Logout</a></div>
+        {% endif %}
         {% with messages = get_flashed_messages() %}  
             {% if messages %}  
                 {% for message in messages %}  
@@ -31,6 +35,7 @@
                 <a href="{{url_for('register')}}">Register</a>
             </nav>
         {% endif %}
+        <hr/>
         </div>
 
         <h1>Welcome {% if user %}{{user}}{% endif %}to the 49er tasks App!</h1>
