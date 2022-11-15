@@ -25,7 +25,9 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[
         DataRequired(message="Please enter a password."),
         EqualTo('confirmPassword', message='Passwords must match'),
-        Length(min=6, max=16)
+        Length(min=6, max=16),
+        Regexp('(?=.*[A-Z])(?=.*[a-z])(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*_=+?<>,.`~:;]){2,})', 
+            message='Password must have both upper and lowercase letters, two numbers, and two special characters')
     ])
 
     confirmPassword = PasswordField('Confirm Password', validators=[
