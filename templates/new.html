@@ -38,11 +38,9 @@
             <p> <input type="text" name="title" value="{% if task %}{{task.title}} {% endif %}" /></p>
             <p><label>Task </label></p>
             <p>
-                <textarea name="taskText" rows="6" cols="0">
+                <textarea name="taskText" rows="6" cols="0" placeholder="Add your new task here ...">
                     {%- if task -%} 
                         {{task.text}}
-                    {%- else -%}
-                        Add your new task here ...
                     {%- endif -%}
                 </textarea>
             </p>
