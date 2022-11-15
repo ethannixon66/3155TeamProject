@@ -50,7 +50,7 @@
             {% for task in tasks %}
             <tr>
                 <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
-                <td>{{ task.date }}</td>
+                <td>{{ task.date.split(' ')[0] }}</td>
                 <td><a href="{{ url_for('update_task', task_id=task.id)}}">
                     <!-- Pencil Icon (must be inlined or style will not work) source: https://jam-icons.com/ -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor">
