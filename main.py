@@ -1,7 +1,7 @@
 import os                 # os is used to get environment variables IP & PORT
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import db
-from models import Task, User, user_tasks
+from models import Task, User
 from sqlalchemy.exc import NoResultFound
 from forms import RegisterForm, LoginForm, CommentForm
 from functools import wraps
@@ -116,7 +116,6 @@ def new_task():
         try:
             new_task = Task(title, text, today, pinned)
             new_task.author = session['user_id']
-            print(f'{new_task.author=}')
         except ValueError as err:
             # flash will display an error on screen, err.args[0] is the text from the exception
             flash(f'Invalid input: {err.args[0]}')

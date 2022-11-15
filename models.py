@@ -2,10 +2,10 @@ from database import db
 from sqlalchemy.orm import validates
 from datetime import date
 
-user_tasks = db.Table('UserTasks',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('task_id', db.Integer, db.ForeignKey('task.id'), primary_key=True)
-)
+# user_tasks = db.Table('UserTasks',
+#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+#     db.Column('task_id', db.Integer, db.ForeignKey('task.id'), primary_key=True)
+# )
 
 class Task(db.Model):
 
