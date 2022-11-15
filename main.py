@@ -109,7 +109,6 @@ def new_task():
         text = request.form['taskText'].strip()
 
         from datetime import datetime
-        # today = date.today().strftime('%m-%d-%Y')
         today = datetime.now().strftime('%m-%d-%Y %H:%M:%S %p')
         pinned = False
         # Task constructor raises exceptions if the fields aren't valid
