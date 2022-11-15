@@ -14,8 +14,8 @@ class Task(db.Model):
     text = db.Column("text", db.String(100))
     date = db.Column("date", db.String(50))
     pinned = db.Column("pinned", db.Boolean())
-
-    users = db.relationship('User', secondary=user_tasks, lazy='subquery', backref=db.backref('tasks', lazy=True))
+    author = db.Column("author", db.Integer, db.ForeignKey('user.id'))
+    # users = db.relationship('User', secondary=user_tasks, lazy='subquery', backref=db.backref('tasks', lazy=True))
 
     def __init__(self, title, text, date, pinned):
         self.title = title
@@ -48,6 +48,7 @@ class User(db.Model):
     email = db.Column("email", db.String(100))
     password = db.Column("password", db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
+    authored_tasks = db.relationship("Task", backref="task", lazy=True)
     # tasks = db.relationship("Task", backref="user", lazy=True)
 
     def __init__(self, first_name, last_name, email, password):

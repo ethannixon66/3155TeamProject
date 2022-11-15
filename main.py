@@ -115,6 +115,8 @@ def new_task():
         # Task constructor raises exceptions if the fields aren't valid
         try:
             new_task = Task(title, text, today, pinned)
+            new_task.author = session['user_id']
+            print(f'{new_task.author=}')
         except ValueError as err:
             # flash will display an error on screen, err.args[0] is the text from the exception
             flash(f'Invalid input: {err.args[0]}')
@@ -170,8 +172,8 @@ def set_task_order(order):
 @requires_user_login
 def get_task(task_id):
     task = db.session.query(Task).filter_by(id=task_id).one()
-    return render_template('task.html', task=task, user=session['user'])
-
+    author = db.session.query(User).filter_by(id=task.author).one()
+    return render_template('task.html', task=task, user=session['user'], author=author)
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 @requires_user_login
 def update_task(task_id):

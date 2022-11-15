@@ -27,6 +27,7 @@
                 <th>Description</th>
                 <th>Date</th>
                 <th>Time</th>
+                <th>Author</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -34,7 +35,8 @@
                 <td>{{ task.title }}</td>
                 <td>{{ task.text }}</td>
                 <td>{{ task.date.split(' ')[0] }}</td>
-                <td>{{ task.date.split(' ')[1] + ' ' + task.date.split(' ')[2] }}</td>
+                <td>{{ task.date.split(' ')[1] }} {{ task.date.split(' ')[2] }}</td>
+                <td>{{ author.first_name }} {{ author.last_name }}</td>
                 <td>
                     <a href="{{ url_for('update_task', task_id=task.id)}}">
                         <!-- Pencil Icon (must be inlined or style will not work) source: https://jam-icons.com/ -->
