@@ -44,6 +44,9 @@ def index():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
+    if session.get('user'):
+        return redirect(url_for('get_tasks'))
+        
     form = RegisterForm()
     
     if request.method == 'POST' and form.validate_on_submit():
@@ -68,7 +71,7 @@ def register():
 def login():
     if session.get('user'):
         return redirect(url_for('get_tasks'))
-        
+
     login_form = LoginForm()
     # validate_on_submit only validates using POST
     if login_form.validate_on_submit():
