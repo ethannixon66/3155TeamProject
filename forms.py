@@ -10,9 +10,13 @@ class RegisterForm(FlaskForm):
     class Meta:
         csrf = False
 
-    firstname = StringField('First Name', validators=[Length(1, 10)])
+    firstname = StringField('First Name', validators=[Length(1, 20),
+        Regexp('[a-zA-Z]+', message='First name cannot include spaces, numbers, or special characters'),
+    ])
 
-    lastname = StringField('Last Name', validators=[Length(1, 20)])
+    lastname = StringField('Last Name', validators=[Length(1, 20),
+        Regexp('[a-zA-Z]+', message='Last name cannot include spaces, numbers, or special characters')
+    ])
 
     email = StringField('Email', [
         Email(message='Not a valid email address.'),
