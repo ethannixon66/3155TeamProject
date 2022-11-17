@@ -172,6 +172,7 @@ def get_task(task_id):
     task = db.session.query(Task).filter_by(id=task_id).one()
     author = db.session.query(User).filter_by(id=task.author).one()
     return render_template('task.html', task=task, user=session['user'], author=author)
+    
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 @requires_user_login
 def update_task(task_id):
