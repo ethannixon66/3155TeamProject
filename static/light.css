@@ -3,8 +3,8 @@
 
 body {
     font-family: 'Trebuchet MS', sans-serif;
-    color: #bfc9cb;
-    background: #282c34;
+    color: #403634;
+    background: #d7d3cb;
 	margin-left: 15%;
 	margin-right: 15%;
     letter-spacing: 1px;
@@ -15,56 +15,56 @@ header, footer {
 	margin-bottom: 10%;
     font-family: 'Ubuntu', sans-serif;
 	text-align: center;
-    color: #ace0af;
-    background:#282c34
+    color: #531f50;
+    background:#d7d3cb
 }
 
 h1 {
     font-family: 'Ubuntu', serif;
     font-size: 32px;
-    color: #ace0af;
-    background:#282c34
+    color: #531f50;
+    background:#d7d3cb
 }
 
 h2 {
     font-family: 'Ubuntu', serif;
     font-size: 24px;
-    color: #ace0af;
-    background:#282c34
+    color: #531f50;
+    background:#d7d3cb
 }
 
 h3 {
     font-family: 'Ubuntu', sans-serif;
-    color: #ace0af;
-    background:#282c34
+    color: #531f50;
+    background:#d7d3cb
 }
 
 a, .icon {
 	text-decoration: none; 
-	color: #48f3ae;
+	color: #b70c51;
 	font-weight: bold;
 }
 
 a:hover, .icon:hover {
     cursor: pointer;
 	text-decoration: none;
-	color: #ace0af;
+	color: #531f50;
     transition:.15s;
 }
 
 button, input[type=submit] {
     cursor: pointer;
-    background-color: #282C34;
-    color: white;
+    background-color: #d7d3cb;
+    color: black;
 	padding: 6px 16px;
-	border: 2px solid #ace0af;
+	border: 2px solid #531f50;
 	position: relative;
 	border-radius: 6px;
 }
 
 button:hover, input[type=submit]:hover {
-    color: black;
-    background-color: #ace0af;
+    color: white;
+    background-color: #531f50;
     text-decoration: none;
     transition-duration: 0.1s;
 }
@@ -76,7 +76,7 @@ nav {
 textarea, input[type=text] {
     resize: none;
     width: 100%;
-    border: 2px solid #ACE0AF;
+    border: 2px solid #531f50;
     font-family: 'Ubuntu', serif;
     font-size: 16px;
     padding: 3px;
@@ -90,13 +90,13 @@ input[type=text] {
 label {
     font-family: 'Ubuntu', serif;
     font-size: 24px;
-    color: #ace0af;
-    background:#282c34;
+    color: #531f50;
+    background:#d7d3cb;
     background-color:transparent;
 }
 
 table {
-    color: #ddd;
+    color: #222;
     text-align: start;
     border-spacing: 0px!important;
     width: 75%;
@@ -107,8 +107,8 @@ table {
 th {
     padding: 10px 12px;
     text-align: left;
-    background-color: #1C1F25;
-	color: #d7f1e5;
+    background-color: #e3e0da;
+	color: #280e1a;
 
 }
 
@@ -118,8 +118,8 @@ td {
 }
 
 table tr:nth-child(even) {
-	background-color: #384e45;
-	color: #fff;
+	background-color: #c7b1ba;
+	color: #000;
 }
 
 .hide {
@@ -134,20 +134,20 @@ table tr:nth-child(even) {
 
 .active_sort {
     color: inherit;
-    /* text-shadow: 0px 0px 10px #00df86,  0px 0px 10px #00df86; */
+    /* text-shadow: 0px 0px 10px #ff2079,  0px 0px 10px #ff2079; */
     animation: fadeIn .3s;
     animation-fill-mode: forwards;
     
 }
 @keyframes fadeIn {
-   100% {text-shadow: 0px 0px 10px #00df86,  0px 0px 10px #00df86;}
+   100% {text-shadow: 0px 0px 10px #ff2079,  0px 0px 10px #ff2079;}
 }
  
 .inactive_sort {
     color: inherit;
 }
 .inactive_sort:hover {
-    color:#fff
+    color:#000
 }
 
 .login_info {
@@ -159,5 +159,5 @@ table tr:nth-child(even) {
     margin-left: auto;
 }
 ::selection {
-    background: #6cb19b;
+    background: #934e64;
 }
