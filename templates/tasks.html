@@ -1,44 +1,25 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Task">
-    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
-    <title>Tasks</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-</head>
-<body>
-    {% if user %}
-    <div class="login_info"><h4>Logged in as:  {{user.first_name}} {{user.last_name}}</h4>  |  
-    <a href="{{url_for('logout')}}"> Logout</a></div>
-    {% endif %}
-
-    <nav>
-        <h1>Tasks</h1>
-        <a href="{{url_for('index')}}">Home</a> &#8226;
-        <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
-        <a href="{{url_for('new_task')}}">New Task</a>
-    </nav>
-    <hr/>
-{% if tasks %}
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+{% block title %}Tasks{% endblock %}
+{% block header %}Tasks{% endblock %}
+{% block content %}
+    {% if tasks %}
     <table>
         <tr>
+        {% if session.get('sort_ascending') %}
+            {% set arrow = '↓' %}
+        {% else %}
+            {% set arrow = '↑' %}
+        {% endif %}
+        
         {% if session.get('order_by') == 'title' %}
-            {% if session.get('sort_ascending') %}
-                <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' )}}">Title &#8593;</a></th>
-            {% else %}
-                <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' )}}">Title &#8595;</a></th>
-            {% endif %}
+            <th><a class="active_sort" href="{{ url_for('set_task_order', order='title' )}}">Title {{arrow}}</a></th>
         {% else %}
             <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='title')}}">Title</a></th>
         {% endif %}
+
         {% if session.get('order_by') == 'date' %}
-            {% if session.get('sort_ascending') %}
-                <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' )}}">Date &#8593;</a></th>
-            {% else %}
-                <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' )}}">Date &#8595;</a></th>
-            {% endif %}
+            <th><a class="active_sort" href="{{ url_for('set_task_order', order='date' )}}">Date {{arrow}}</a></th>
         {% else %}
             <th><a class="inactive_sort" href="{{ url_for('set_task_order', order='date')}}">Date</a></th>
         {% endif %}
@@ -47,47 +28,37 @@
             <th></th>
         </tr>
         
-            {% for task in tasks %}
-            <tr>
-                <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
-                <td>{{ task.date.split(' ')[0] }}</td>
-                <td><a href="{{ url_for('update_task', task_id=task.id)}}">
-                    <!-- Pencil Icon (must be inlined or style will not work) source: https://jam-icons.com/ -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor">
-                        <path d="M12.238 5.472L3.2 14.51l-.591 2.016 1.975-.571 9.068-9.068-1.414-1.415zM13.78 3.93l1.414 1.414 1.318-1.318a.5.5 0 0 0 0-.707l-.708-.707a.5.5 0 0 0-.707 0L13.781 3.93zm3.439-2.732l.707.707a2.5 2.5 0 0 1 0 3.535L5.634 17.733l-4.22 1.22a1 1 0 0 1-1.237-1.241l1.248-4.255 12.26-12.26a2.5 2.5 0 0 1 3.535 0z"></path>
-                    </svg>
-
-                </a></td>
-                <td>
-                    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
-                    <!-- label necessary to group svg and button together so svg can act as button -->
-                    <label>
-                        <button type="submit" value="Delete" class="hide">Delete</button>
-                        <!-- Trash Icon (must be inlined or style will not work) source: https://jam-icons.com/ -->
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="-3 -2 24 24" width="24" fill="currentColor"><path d="M6 2V1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h4a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-.133l-.68 10.2a3 3 0 0 1-2.993 2.8H5.826a3 3 0 0 1-2.993-2.796L2.137 7H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4zm10 2H2v1h14V4zM4.141 7l.687 10.068a1 1 0 0 0 .998.932h6.368a1 1 0 0 0 .998-.934L13.862 7h-9.72zM7 8a1 1 0 0 1 1 1v7a1 1 0 0 1-2 0V9a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v7a1 1 0 0 1-2 0V9a1 1 0 0 1 1-1z"></path></svg>
-                    </label>
-                        
-                    </form>
-                </td>
-                <td>
-                    <form action="{{ url_for('pin_task', task_id=task.id) }}" method="post">
-                    <!-- label necessary to group svg and button together so svg can act as button -->
-                    <label>
-                        <button type="submit" value="Pin" class="hide">Pin</button>
-                        <!-- Pin Icon (must be inlined or style will not work) source: https://jam-icons.com/ -->
-                        {% if task.pinned %}
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="-3 -2.5 24 24" width="24" fill="currentColor"><path d="M7.374 12.268l-5.656 5.657A1 1 0 1 1 .303 16.51l5.657-5.656L1.718 6.61A6.992 6.992 0 0 1 7.9 4.67L11.617.954a2 2 0 0 1 2.828 0l2.829 2.828a2 2 0 0 1 0 2.829l-3.716 3.716a6.992 6.992 0 0 1-1.941 6.183l-4.243-4.242z"></path></svg>
-                        {% else %}
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor"><path d="M12.626 11.346l-.184-1.036 4.49-4.491-2.851-2.852-4.492 4.49-1.035-.184a5.05 5.05 0 0 0-2.734.269l6.538 6.537a5.05 5.05 0 0 0 .268-2.733zm-4.25 1.604L2.67 18.654a1.008 1.008 0 0 1-1.426-1.426l5.705-5.704L2.67 7.245a7.051 7.051 0 0 1 6.236-1.958l3.747-3.747a2.017 2.017 0 0 1 2.853 0l2.852 2.853a2.017 2.017 0 0 1 0 2.852l-3.747 3.747a7.051 7.051 0 0 1-1.958 6.236L8.376 12.95z"></path></svg>
-                        {% endif %}
-                    </label>
-                        
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
+        {% for task in tasks %}
+        <tr>
+            <td><a href="{{ url_for('get_task', task_id=task.id)}}">{{ task.title }}</a></td>
+            <td>{{ task.date.split(' ')[0] }}</td>
+            <td><a href="{{ url_for('update_task', task_id=task.id)}}">{{ macros.pencil() }}</a></td>
+            <td>
+                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
+                <!-- label necessary to group svg and button together so svg can act as button -->
+                <label>
+                    <button type="submit" value="Delete" class="hide">Delete</button>
+                    {{ macros.trash() }}
+                </label>
+                </form>
+            </td>
+            <td>
+                <form action="{{ url_for('pin_task', task_id=task.id) }}" method="post">
+                <!-- label necessary to group svg and button together so svg can act as button -->
+                <label>
+                    <button type="submit" value="Pin" class="hide">Pin</button>
+                    {% if task.pinned %}
+                        {{ macros.filled_pin() }}
+                    {% else %}
+                        {{ macros.empty_pin() }}
+                    {% endif %}
+                </label>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
-{% else %}
-    <h2>Try creating a new task!</h2>
-{% endif %}
-</body>
+    {% else %}
+        <h2>Try creating a new task!</h2>
+    {% endif %}
+{% endblock content %}
