@@ -36,6 +36,11 @@ def page_not_found(e):
 def task_not_found(e):
     return render_template('error.html', message="Whoops, looks like that task does not exist")
 
+@app.before_request
+def log_prev_url():
+    if request.referrer is not None:
+        session['last'] = request.referrer
+        
 @app.route('/index/')
 @app.route('/')
 @requires_user_login
@@ -212,6 +217,14 @@ def pin_task(task_id):
     db.session.add(my_task)
     db.session.commit()
     return redirect(url_for('get_tasks'))
+
+@app.route('/toggle_theme')
+def toggle_theme():
+    if session.get('light_theme'):
+        session['light_theme'] = not session['light_theme']
+    else:
+        session['light_theme'] = True
+    return redirect(session['last'])
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)

@@ -1,3 +1,4 @@
+{% from 'macros.html' import sun, moon %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,13 +8,20 @@
         <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
         <title>{% block title %}{% endblock %}</title>
         <!-- styles -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        {% if session['light_theme'] == True %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='light.css') }}">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        {% endif %}
     </head>
     <body>
     {% if user %}
-        <div class="login_info"><h4>Logged in as:  {{user.first_name}} {{user.last_name}}</h4>  |  
-        <a href="{{url_for('logout')}}"> Logout</a></div>
+        <div class="login_info">
+        <a href="{{url_for('toggle_theme', curr_url=request.path)}}">{{moon() if session['light_theme'] else sun()}}</a>
+        <h4 id="logout_other">Logged in as:  {{user.first_name}} {{user.last_name}}</h4>  |  
+        <a id="logout_button" href="{{url_for('logout')}}"> Logout</a>
     {% endif %}
+        </div>
     {% block nav %}
         <nav>
             <h1>{% block header %}{% endblock %}</h1>

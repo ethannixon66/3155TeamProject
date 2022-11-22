@@ -158,6 +158,15 @@ table tr:nth-child(even) {
     margin-right: 0;
     margin-left: auto;
 }
+
+#logout_button {
+    margin-left:0;
+}
+#logout_other {
+    margin-left:auto;
+    margin-right:0;
+}
+
 ::selection {
     background: #934e64;
 }
