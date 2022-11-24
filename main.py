@@ -2,6 +2,7 @@ import os                 # os is used to get environment variables IP & PORT
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import db
 from models import Task, User
+from models import Comment as Comment
 from sqlalchemy.exc import NoResultFound
 from forms import RegisterForm, LoginForm, CommentForm
 from functools import wraps
@@ -176,7 +177,8 @@ def set_task_order(order):
 def get_task(task_id):
     task = db.session.query(Task).filter_by(id=task_id).one()
     author = db.session.query(User).filter_by(id=task.author).one()
-    return render_template('task.html', task=task, user=session['user'], author=author)
+    form = CommentForm()
+    return render_template('task.html', task=task, user=session['user'], author=author, form = form)
     
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 @requires_user_login
@@ -225,6 +227,23 @@ def toggle_theme():
     else:
         session['light_theme'] = True
     return redirect(session['last'])
+
+@app.route('/tasks/<task_id>/comment', methods=['POST'])
+def new_comment(task_id):
+    if session.get('user'):
+        comment_form = CommentForm()
+        # validate_on_submit only validates using POST
+        if comment_form.validate_on_submit():
+            # get comment data
+            comment_text = request.form['comment']
+            new_task = Comment(comment_text, int(task_id), session['user_id'])
+            db.session.add(new_task)
+            db.session.commit()
+
+        return redirect(url_for('get_tasks', task_id=task_id))
+
+    else:
+        return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
