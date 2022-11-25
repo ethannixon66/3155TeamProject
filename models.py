@@ -73,5 +73,9 @@ class Comment(db.Model):
         self.task_id = task_id
         self.user_id = user_id
 
-
+    @validates('content')
+    def validate_text(self, key, value):
+        if len(value) < 1:
+            raise ValueError(f"Comment cannot be empty")
+        return value
     

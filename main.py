@@ -178,7 +178,12 @@ def get_task(task_id):
     task = db.session.query(Task).filter_by(id=task_id).one()
     author = db.session.query(User).filter_by(id=task.author).one()
     form = CommentForm()
-    return render_template('task.html', task=task, user=session['user'], author=author, form = form)
+    comment_authors = {}
+    for comment in task.comments:
+        author = db.session.query(User).filter_by(id=comment.user_id).one()
+        author_name = f'{author.first_name} {author.last_name}'
+        comment_authors[comment] = author_name
+    return render_template('task.html', task=task, user=session['user'], author=author, form=form, authors=comment_authors)
     
 @app.route('/tasks/edit/<task_id>/', methods=['GET', 'POST'])
 @requires_user_login
@@ -235,12 +240,18 @@ def new_comment(task_id):
         # validate_on_submit only validates using POST
         if comment_form.validate_on_submit():
             # get comment data
-            comment_text = request.form['comment']
-            new_task = Comment(comment_text, int(task_id), session['user_id'])
+            try:
+                comment_text = request.form['comment'].strip()
+                new_task = Comment(comment_text, int(task_id), session['user_id'])
+            except ValueError as err:
+            # flash will display an error on screen, err.args[0] is the text from the exception
+                flash(f'Invalid input: {err.args[0]}')
+                # refreshes page
+                return redirect(url_for('get_task', task_id=task_id))
             db.session.add(new_task)
             db.session.commit()
 
-        return redirect(url_for('get_tasks', task_id=task_id))
+        return redirect(url_for('get_task', task_id=task_id))
 
     else:
         return redirect(url_for('login'))

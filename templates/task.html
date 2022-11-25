@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import 'macros.html' as macros %}
+{% from 'macros.html' import flash %}
 {% block title %}{{ task.title }}{% endblock %}
 {% block header %}Task Details{% endblock %}
 {% block content %}
@@ -33,13 +34,13 @@
             </td>
         </tr>
     </table>
-    
+    {{ flash() }}
     {% if task.comments %}
         {% if task.comments|length > 0 %}
             <h2>Comments</h2>
             <ul>
             {% for comment in task.comments %}
-                <li>{{ comment.content }}</li>
+                <li>{{ authors[comment] }}: {{ comment.content }}</li>
             {% endfor %}
             </ul>
         {% endif %}
