@@ -17,7 +17,13 @@
     <body>
     {% if user %}
         <div class="login_info">
-        <a href="{{url_for('toggle_theme', curr_url=request.path)}}">{{moon() if session['light_theme'] else sun()}}</a>
+            <form action="{{url_for('toggle_theme', curr_url=request.path)}}" method="post">
+            <!-- label necessary to group svg and button together so svg can act as button -->
+            <label>
+                <button type="submit" value="Theme" class="hide">Theme</button>
+                {{moon() if session['light_theme'] else sun()}}
+            </label>
+            </form>
         <h4 id="logout_other">Logged in as:  {{user.first_name}} {{user.last_name}}</h4>  |  
         <a id="logout_button" href="{{url_for('logout')}}"> Logout</a>
     {% endif %}

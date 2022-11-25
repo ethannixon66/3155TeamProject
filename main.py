@@ -28,7 +28,9 @@ def requires_user_login(route_func):
     return wrapper
     
 # runs if 404 error occurs (user typed a wrong url)
+# or if 405 error occurs (request method not allowed)
 @app.errorhandler(404)
+@app.errorhandler(405)
 def page_not_found(e):
     return render_template('error.html', message="Page does not exist")
 
@@ -225,7 +227,7 @@ def pin_task(task_id):
     db.session.commit()
     return redirect(url_for('get_tasks'))
 
-@app.route('/toggle_theme')
+@app.route('/toggle_theme', methods=['POST'])
 def toggle_theme():
     if session.get('light_theme'):
         session['light_theme'] = not session['light_theme']
@@ -234,27 +236,24 @@ def toggle_theme():
     return redirect(session['last'])
 
 @app.route('/tasks/<task_id>/comment', methods=['POST'])
+@requires_user_login
 def new_comment(task_id):
-    if session.get('user'):
-        comment_form = CommentForm()
-        # validate_on_submit only validates using POST
-        if comment_form.validate_on_submit():
-            # get comment data
-            try:
-                comment_text = request.form['comment'].strip()
-                new_task = Comment(comment_text, int(task_id), session['user_id'])
-            except ValueError as err:
-            # flash will display an error on screen, err.args[0] is the text from the exception
-                flash(f'Invalid input: {err.args[0]}')
-                # refreshes page
-                return redirect(url_for('get_task', task_id=task_id))
-            db.session.add(new_task)
-            db.session.commit()
+    comment_form = CommentForm()
+    # validate_on_submit only validates using POST
+    if comment_form.validate_on_submit():
+        # get comment data
+        try:
+            comment_text = request.form['comment'].strip()
+            new_task = Comment(comment_text, int(task_id), session['user_id'])
+        except ValueError as err:
+        # flash will display an error on screen, err.args[0] is the text from the exception
+            flash(f'Invalid input: {err.args[0]}')
+            # refreshes page
+            return redirect(url_for('get_task', task_id=task_id))
+        db.session.add(new_task)
+        db.session.commit()
 
-        return redirect(url_for('get_task', task_id=task_id))
-
-    else:
-        return redirect(url_for('login'))
+    return redirect(url_for('get_task', task_id=task_id))
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
