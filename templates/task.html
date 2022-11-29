@@ -35,6 +35,7 @@
         </tr>
     </table>
     {{ flash() }}
+    <div style="word-wrap:break-word">
     {% if task.comments %}
         {% if task.comments|length > 0 %}
             <h2>Comments</h2>
@@ -45,6 +46,7 @@
             </ul>
         {% endif %}
     {% endif %}
+    </div>
     <form action="{{ url_for('new_comment', task_id=task.id) }}" method="post">
         <div class="formwrapper">
             <h2 class="title">Add a comment</h2>
