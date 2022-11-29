@@ -41,7 +41,7 @@
             <h2>Comments</h2>
             <ul>
             {% for comment in task.comments %}
-                <li>{{ authors[comment] }}: {{ comment.content }}</li>
+                <li style="color:white">{{ authors[comment] }}: {{ comment.content }}</li>
             {% endfor %}
             </ul>
         {% endif %}
