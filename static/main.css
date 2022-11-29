@@ -166,7 +166,7 @@ table tr:nth-child(even) {
     margin-left:auto;
     margin-right:0;
 }
-#comment {
+.comment {
     color: white;
 }
 ::selection {

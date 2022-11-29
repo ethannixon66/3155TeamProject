@@ -165,7 +165,8 @@ table tr:nth-child(even) {
 #logout_other {
     margin-left:auto;
     margin-right:0;
-}#comment {
+}
+.comment {
     color: black;
 }
 ::selection {
