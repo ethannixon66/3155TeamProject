@@ -48,13 +48,10 @@
     {% endif %}
     </div>
     <form action="{{ url_for('new_comment', task_id=task.id) }}" method="post">
-        <div class="formwrapper">
-            <h2 class="title">Add a comment</h2>
-            <div class="form-field">
-            {{ form.comment.label }} <br/> {{ form.comment }}
-            </div>
-            {{ form.submit }}
-        </div>
+        <h2>Add a comment</h2>
+        {{ form.comment }}
+        </br></br>
+        {{ form.submit }}
     </form>
 
 {% endblock content %}
