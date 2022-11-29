@@ -4,7 +4,7 @@
 body {
     font-family: 'Trebuchet MS', sans-serif;
     color: #403634;
-    background: #d7d3cb;
+    background: #f8f3f7;
 	margin-left: 15%;
 	margin-right: 15%;
     letter-spacing: 1px;
@@ -16,27 +16,27 @@ header, footer {
     font-family: 'Ubuntu', sans-serif;
 	text-align: center;
     color: #531f50;
-    background:#d7d3cb
+    background:#f8f3f7
 }
 
 h1 {
     font-family: 'Ubuntu', serif;
     font-size: 32px;
     color: #531f50;
-    background:#d7d3cb
+    background:#f8f3f7
 }
 
 h2 {
     font-family: 'Ubuntu', serif;
     font-size: 24px;
     color: #531f50;
-    background:#d7d3cb
+    background:#f8f3f7
 }
 
 h3 {
     font-family: 'Ubuntu', sans-serif;
     color: #531f50;
-    background:#d7d3cb
+    background:#f8f3f7
 }
 
 a, .icon {
@@ -54,7 +54,7 @@ a:hover, .icon:hover {
 
 button, input[type=submit] {
     cursor: pointer;
-    background-color: #d7d3cb;
+    background-color: #f2f2f1;
     color: black;
 	padding: 6px 16px;
 	border: 2px solid #531f50;
@@ -107,7 +107,7 @@ table {
 th {
     padding: 10px 12px;
     text-align: left;
-    background-color: #e3e0da;
+    background-color: #e3dae1;
 	color: #280e1a;
 
 }
@@ -118,7 +118,7 @@ td {
 }
 
 table tr:nth-child(even) {
-	background-color: #c7b1ba;
+	background-color: #f8c7dc;
 	color: #000;
 }
 
@@ -140,7 +140,7 @@ table tr:nth-child(even) {
     
 }
 @keyframes fadeIn {
-   100% {text-shadow: 0px 0px 10px #ff2079,  0px 0px 10px #ff2079;}
+   100% {text-shadow: 0px 0px 10px #ff94bf,  0px 0px 10px #ff94bf;}
 }
  
 .inactive_sort {
@@ -165,8 +165,9 @@ table tr:nth-child(even) {
 #logout_other {
     margin-left:auto;
     margin-right:0;
+}#comment {
+    color: black;
 }
-
 ::selection {
     background: #934e64;
 }
