@@ -28,27 +28,25 @@ def requires_user_login(route_func):
     return wrapper
     
 # runs if 404 error occurs (user typed a wrong url)
-# or if 405 error occurs (request method not allowed)
 @app.errorhandler(404)
-@app.errorhandler(405)
 def page_not_found(e):
-    return render_template('error.html', message="Page does not exist")
+    return render_template('error.html', message="Page does not exist"), 404
+
+# runs if 405 error occurs (method not allowed)
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return render_template('error.html', message="Page does not exist"), 405
 
 # runs if NoResultFound exception is raised (the url contained an invalid task id)
 @app.errorhandler(NoResultFound)
 def task_not_found(e):
-    return render_template('error.html', message="Whoops, looks like that task does not exist")
-
-@app.before_request
-def log_prev_url():
-    if request.referrer is not None:
-        session['last'] = request.referrer
+    return render_template('error.html', message="Whoops, looks like that task does not exist"), 404
         
 @app.route('/index/')
 @app.route('/')
 @requires_user_login
 def index():
-    return redirect(url_for('get_tasks'))
+    return render_template("index.html", user=session['user'])
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -173,7 +171,6 @@ def set_task_order(order):
     
     return redirect(url_for('get_tasks'))
         
-
 @app.route('/tasks/<task_id>/')
 @requires_user_login
 def get_task(task_id):

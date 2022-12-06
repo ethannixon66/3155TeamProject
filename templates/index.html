@@ -1,29 +1,18 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Project Application">
-    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
-    <title>Project Application</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-</head>
-<body>
-    <nav>
-        <h1>Task App</h1>
-        <a href="{{url_for('index')}}">Home</a> &#8226;
-        <a href="{{url_for('get_tasks')}}">My Tasks</a> &#8226;
-        <a href="{{url_for('new_task')}}">New Task</a> 
-    </nav>
-    <hr/>
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block header %}Home{% endblock %}
+{% block content %}
     <h1>
-        Welcome to Group 19's Task Application Website!
+        Welcome to Team 19's Task Application Website!
     </h1>
 
     <p>Members:</p>
-    <li>Christina Xie</li>
-    <li>Ethan Nixon</li>
-    <li>Sidney Nesbitt</li>
-    <li>Cameron Harding</li>
+    <ul>
+        <li>Christina Xie</li>
+        <li>Ethan Nixon</li>
+        <li>Sidney Nesbitt</li>
+        <li>Cameron Harding</li>
+    </ul>
+    
 
-</body>
+{% endblock %}
