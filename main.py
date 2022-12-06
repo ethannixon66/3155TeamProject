@@ -145,7 +145,7 @@ def get_tasks():
         session['order_by'] = 'default'
         session['sort_ascending'] = True
     elif session['order_by'] == 'title':
-        sort_func = lambda task: task.title
+        sort_func = lambda task: task.title.lower()
     elif session['order_by'] == 'date':
         sort_func = lambda task: task.date
 

@@ -62,6 +62,16 @@ class FlaskTest(unittest.TestCase):
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
         self.assertEqual(s.get('http://127.0.0.1:5000/tasks/1').status_code, 404)
+    
+    def test_comment(self):
+        self.test_login()
+        if s.get("http://127.0.0.1:5000/tasks/1").status_code == 404:
+            self.test_new()
+        response = s.post('http://127.0.0.1:5000/tasks/1/comment', data={'comment': 'Test Comment'})
+        self.assertEqual(response.status_code, 200)
+        response = s.get('http://127.0.0.1:5000/tasks/1')
+        self.assertIn('Test Comment', response.text)
+
 
 if __name__ == " __main__":
     unittest.main()
