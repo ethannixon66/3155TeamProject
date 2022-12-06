@@ -41,10 +41,18 @@ class FlaskTest(unittest.TestCase):
         if s.get("http://127.0.0.1:5000/tasks/1").status_code == 200:
             self.test_delete()
         s.get("http://127.0.0.1:5000/tasks/new")
-        response = s.post("http://127.0.0.1:5000/tasks/new", data={'title':'Example Task','taskText':'task descriptionn'})
+        response = s.post("http://127.0.0.1:5000/tasks/new", data={'title':'Example Task','taskText':'task description'})
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
         self.assertEqual(s.get('http://127.0.0.1:5000/tasks/1').status_code, 200)
+
+    def test_edit(self):
+        self.test_login()
+        if s.get("http://127.0.0.1:5000/tasks/1").status_code == 404:
+            self.test_new()
+        response = s.post("http://127.0.0.1:5000/tasks/edit/1", data={'title':'Edited Example Task','taskText':'edited task description'})
+        statuscode = response.status_code
+        self.assertEqual(statuscode, 200)
 
     def test_delete(self):
         self.test_login()
