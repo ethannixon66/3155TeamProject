@@ -41,7 +41,12 @@ def method_not_allowed(e):
 @app.errorhandler(NoResultFound)
 def task_not_found(e):
     return render_template('error.html', message="Whoops, looks like that task does not exist"), 404
-        
+
+@app.before_request
+def log_prev_url():
+    if request.referrer is not None:
+        session['last'] = request.referrer 
+
 @app.route('/index/')
 @app.route('/')
 @requires_user_login
